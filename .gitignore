@@ -1,0 +1,96 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+# Diretórios do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Logs
+/logs
+*.log
+
+# Arquivos compilados
+*.class
+
+# Diretório de build do Gradle
+/build/
+/out/
+
+# Dependências do Gradle
+.gradle/
+/*.jar
+/*.war
+/*.ear
+
+# Arquivos de cache da IDE
+# IntelliJ IDEA
+/.idea
+*.iml
+*.ipr
+*.iws
+# Eclipse
+.project
+.classpath
+.settings/
+# VS Code
+.vscode/
+
+# Configurações específicas do SO
+/bin/
+/tmp/
+/target/
+
+# Arquivos de teste ou temporários
+*.swp
+*~
+*.bak
+*.tmp
+
+# Arquivos de configuração específicos de IDEs
+# Maven Wrapper
+.mvn/
+!**/mvn/wrapper/*
+!**/mvn/wrapper/*
+
+# Chaves e configurações sensíveis (se houver)
+application.properties
+application.yml
+
+# Arquivos de ambiente
+.env
+*.env
