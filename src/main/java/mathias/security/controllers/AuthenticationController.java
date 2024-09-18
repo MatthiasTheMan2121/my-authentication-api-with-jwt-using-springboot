@@ -37,10 +37,6 @@ public class AuthenticationController {
 	public ResponseEntity<TokenDTO> login(@Valid @RequestBody LoginDTO data) {
 		UserDetails user = userService.loadUserByUsername(data.email());
 		
-		if (user == null) {
-			throw new ResourceNotFoundException("User with email address '" + data.email() + "' not found.");
-		}
-		
 		String token = tokenService.generateToken(data.email(), user.getAuthorities().stream(
 				).map(authority -> authority.getAuthority()).collect(Collectors.toList()));
 		
@@ -49,9 +45,7 @@ public class AuthenticationController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<User> register(@Valid @RequestBody UserDTO data) {
-		if (userService.userExists(data.getEmail())) {
-			throw new ResourceAlreadyExistsException("User with email address '" + data.getEmail() + "' already exists.");
-		}
+		userService.userExists(data.getEmail());
 		
 		data.setPassword(new BCryptPasswordEncoder().encode(data.getPassword()));
 		

@@ -1,5 +1,6 @@
 package mathias.security.services;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import mathias.security.dtos.UserDTO;
 import mathias.security.models.Role;
 import mathias.security.models.User;
 import mathias.security.repositories.UserRepository;
+import mathias.security.exceptions.ResourceAlreadyExistsException;
+import mathias.security.exceptions.ResourceNotFoundException;
 
 @Service
 public class UserService implements UserDetailsService{
@@ -33,7 +36,16 @@ public class UserService implements UserDetailsService{
 		return repo.save(user);
 	}
 	
-	public boolean userExists(String email) {
-		return repo.existsByEmail(email);
+	public User findById(Long id) throws ResourceNotFoundException {
+		Optional<User> user = repo.findById(id);
+		return user.orElseThrow(() -> {return new ResourceNotFoundException("User not Found");});
+	}
+	
+	public boolean userExists(String email) throws ResourceAlreadyExistsException {
+		if (repo.existsByEmail(email)) {
+			throw new ResourceAlreadyExistsException("User Already Exists");
+		}
+		
+		return false;
 	}
 }
