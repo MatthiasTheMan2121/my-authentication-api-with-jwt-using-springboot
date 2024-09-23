@@ -111,14 +111,17 @@ private SecretKey getSecretKey() {
 
 - `POST /auth/register`: Register a new user.
   - Request Body:
+  
   ```
   {
      "email" : "youremail@gmail.com",
      "password" : "yourpassword123",
      "roles" : ["USER","ADMIN"]
   }
+  
   ```
   - Reponse Body:
+  
   ```
   {
     "id": 1,
@@ -138,7 +141,7 @@ private SecretKey getSecretKey() {
     "accountNonExpired": true,
     "accountNonLocked": true,
     "credentialsNonExpired": true
-}
+    }
   ```
 - `POST /auth/login`: Authenticate a user and generate a JWT.
   - Request Body:
