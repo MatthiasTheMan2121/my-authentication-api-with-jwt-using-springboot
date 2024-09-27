@@ -17,8 +17,6 @@ import jakarta.validation.Valid;
 import mathias.security.dtos.LoginDTO;
 import mathias.security.dtos.TokenDTO;
 import mathias.security.dtos.UserDTO;
-import mathias.security.exceptions.ResourceAlreadyExistsException;
-import mathias.security.exceptions.ResourceNotFoundException;
 import mathias.security.models.User;
 import mathias.security.services.TokenService;
 import mathias.security.services.UserService;

@@ -1,6 +1,7 @@
 # Minha API de Autenticação com JWT Usando Spring Boot Security
 
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
 
 [Read in English](README.md)
 
@@ -170,3 +171,82 @@ Esses endpoints requerem um **Bearer Token** no cabeçalho, por exemplo:
 - `GET /ping`: Permitido apenas para usuários com a role **ADMIN**.
   
 - `GET /user/{id}`: Acessa um usuário do banco de dados pelo seu **id**. (Não requer a role **ADMIN**)
+
+## Rodando o projeto
+
+Para rodar esse projeto sem mais complicações, utilizaremos **Docker**. 
+
+
+### Via Docker CLI
+
+Primeiramente, crie uma imagem para o banco dados **PostgreSQL**.
+
+```
+docker pull postgres
+
+```
+
+Agora, crie uma rede para a conexão do container do banco dados e o container da API.
+
+
+```
+docker network create auth_ne
+
+```
+
+Após isso, crie os containers e conecte-os a rede:
+
+
+- Container PostgreSQL:
+
+
+```
+docker run --name auth_db --network auth_net -e POSTGRES_PASSWORD=everybodywannabeapassword -e POSTGRES_DB=test_db -v /tmp/database:/var/lib/postgresql/data -p 5432:5432 -d postgres
+
+```
+
+- Container da API:
+
+```
+docker run --name jwt_api --network auth_net -p 8080:8080 -e DB_URL=jdbc:postgresql://auth_db:5432/test_db -e DB_PASSWORD=everybodywannabeapassword my-jwt-ap
+```
+
+### Via Docker Compose
+
+```
+version: '3.8'
+
+services:
+  auth_db:
+    image: postgres
+    container_name: auth_db
+    environment:
+      POSTGRES_PASSWORD: everybodywannabeapassword
+      POSTGRES_DB: test_db
+    volumes:
+      - /tmp/database:/var/lib/postgresql/data
+    networks:
+      - auth_net
+    ports:
+      - "5432:5432"
+
+  jwt_api:
+    image: my-jwt-api
+    container_name: jwt_api
+    environment:
+      DB_URL: jdbc:postgresql://auth_db:5432/test_db
+      DB_PASSWORD: everybodywannabeapassword
+    depends_on:
+      - auth_db
+    networks:
+      - auth_net
+    ports:
+      - "8080:8080"
+
+networks:
+  auth_net:
+    driver: bridge
+
+```
+
+---
